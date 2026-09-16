@@ -5,7 +5,7 @@ import {
     flashcardsResponseSchema,
     generateFlashcardsRequestSchema,
 } from "@/lib/flashcards";
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
     try {
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const savedSet = await prisma.$transaction(async (transaction) => {
+        const savedSet = await getPrisma().$transaction(async (transaction) => {
             const document = await transaction.studyDocument.findFirst({
                 where: {
                     id: input.data.documentId,
