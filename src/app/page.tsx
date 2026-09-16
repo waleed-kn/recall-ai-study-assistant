@@ -1,69 +1,37 @@
-import Image from "next/image";
+import FlashcardGenerator from "./flashcard-generator";
+
+const navigation = [
+  { label: "Overview", icon: "⌂", active: true },
+  { label: "My library", icon: "▤" },
+  { label: "Flashcards", icon: "▱", count: "24" },
+  { label: "Quizzes", icon: "✓" },
+];
+
+const documents = [
+  { title: "Cognitive Psychology", type: "PDF", detail: "12 pages", color: "bg-[#e8e0ff] text-[#6c4ac8]", icon: "▤" },
+  { title: "Neural Networks 101", type: "PDF", detail: "8 pages", color: "bg-[#d9f3ed] text-[#258b76]", icon: "⌁" },
+  { title: "Organic Chemistry", type: "DOCX", detail: "24 pages", color: "bg-[#ffe7d4] text-[#c56f37]", icon: "◇" },
+];
+
+const reviewItems = [
+  { title: "Cognitive Psychology", cards: "18 cards", due: "Due today", tint: "bg-[#f3edff]", accent: "text-[#7651d1]" },
+  { title: "Neural Networks 101", cards: "12 cards", due: "Due tomorrow", tint: "bg-[#e8f8f4]", accent: "text-[#258b76]" },
+];
+
+function ProgressBar({ value, color = "bg-[#7157d9]" }: { value: number; color?: string }) {
+  return <div className="h-2 overflow-hidden rounded-full bg-[#eeeaf5]"><div className={`h-full rounded-full ${color}`} style={{ width: `${value}%` }} /></div>;
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="min-h-screen bg-[#f8f7fb] text-[#26232f]"><div className="mx-auto flex min-h-screen max-w-[1600px]">
+      <aside className="hidden w-[240px] shrink-0 border-r border-[#ebe8f0] bg-[#fbfaff] px-5 py-7 lg:flex lg:flex-col"><div className="flex items-center gap-3 px-2"><div className="grid size-9 place-items-center rounded-xl bg-[#7157d9] text-lg font-bold text-white shadow-[0_7px_16px_rgba(113,87,217,0.24)]">R</div><span className="text-[19px] font-semibold tracking-[-0.03em]">Recall</span></div><nav className="mt-12 space-y-1" aria-label="Main navigation"><p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a29caf]">Workspace</p>{navigation.map((item) => <a key={item.label} href="#" className={`flex items-center gap-3 rounded-xl px-3 py-3 text-[13px] font-medium transition-colors ${item.active ? "bg-[#eeeafd] text-[#694ed0]" : "text-[#777180] hover:bg-[#f1eef8]"}`}><span className="grid size-5 place-items-center text-[16px]">{item.icon}</span><span>{item.label}</span>{item.count && <span className="ml-auto rounded-md bg-white px-2 py-0.5 text-[11px] text-[#998fa7]">{item.count}</span>}</a>)}</nav><div className="mt-auto rounded-2xl bg-[#2f2940] p-4 text-white"><div className="mb-5 flex items-start justify-between"><span className="grid size-8 place-items-center rounded-lg bg-[#5f5082] text-base">✦</span><span className="rounded-full bg-[#4c425f] px-2 py-1 text-[10px] text-[#d9d2e9]">PRO</span></div><p className="text-sm font-semibold">Make studying stick.</p><p className="mt-1 text-[11px] leading-5 text-[#bbb3ca]">Your memory grows one review at a time.</p><button className="mt-4 w-full rounded-lg bg-white py-2 text-[11px] font-semibold text-[#443d54]">View plan</button></div></aside>
+      <section className="min-w-0 flex-1 px-5 py-6 sm:px-8 lg:px-12 lg:py-9"><header className="flex items-center justify-between"><div className="flex items-center gap-3 lg:hidden"><div className="grid size-8 place-items-center rounded-lg bg-[#7157d9] text-sm font-bold text-white">R</div><span className="font-semibold">Recall</span></div><div className="hidden lg:block"><p className="text-[12px] font-medium text-[#98919f]">Tuesday, September 15, 2026</p><h1 className="mt-1 text-[26px] font-semibold tracking-[-0.04em]">Good morning, Alex <span className="text-[#e7a35c]">✦</span></h1></div><div className="flex items-center gap-3"><button aria-label="Notifications" className="grid size-9 place-items-center rounded-full border border-[#e8e4ed] bg-white text-sm text-[#716b79]">♢</button><div className="grid size-9 place-items-center rounded-full bg-[#f4c9ae] text-xs font-bold text-[#7d4e3a]">AC</div></div></header><div className="mt-6 lg:hidden"><p className="text-[11px] text-[#98919f]">Tuesday, September 15, 2026</p><h1 className="mt-1 text-2xl font-semibold tracking-[-0.04em]">Good morning, Alex <span className="text-[#e7a35c]">✦</span></h1></div>
+        <div className="mt-9 grid gap-5 xl:grid-cols-[1.6fr_1fr]"><div className="relative overflow-hidden rounded-[20px] bg-[#e9e4ff] p-6 sm:p-8"><div className="relative z-10 max-w-[390px]"><p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#755bc7]">Your study overview</p><h2 className="mt-3 text-[25px] font-semibold leading-tight tracking-[-0.04em] text-[#342b53]">Small steps today,<br />big recall tomorrow.</h2><p className="mt-3 max-w-[295px] text-[13px] leading-5 text-[#756b91]">You&apos;re building a great study habit. Keep your streak going.</p><button className="mt-6 rounded-lg bg-[#7157d9] px-4 py-2.5 text-xs font-semibold text-white shadow-[0_7px_14px_rgba(113,87,217,0.2)]">Continue studying <span className="ml-2">→</span></button></div><div className="absolute -right-8 -top-12 size-56 rounded-full border-[28px] border-[#d9d0ff] opacity-80" /><div className="absolute -bottom-16 right-12 size-36 rounded-full border-[20px] border-[#d9d0ff] opacity-70" /></div><div className="rounded-[20px] border border-[#ece9f1] bg-white p-6"><div className="flex items-center justify-between"><h2 className="text-sm font-semibold">Today&apos;s progress</h2><span className="text-lg text-[#e4a15c]">◒</span></div><div className="mt-6 flex items-center gap-5"><div className="relative grid size-[88px] place-items-center rounded-full" style={{ background: "conic-gradient(#7157d9 0 72%, #eeeaf5 72% 100%)" }}><div className="grid size-[68px] place-items-center rounded-full bg-white"><span className="text-xl font-semibold">72<span className="text-xs">%</span></span></div></div><div><p className="text-2xl font-semibold">43 min</p><p className="mt-1 text-[11px] text-[#938c9c]">of 60 min goal</p><p className="mt-3 text-[11px] font-medium text-[#258b76]">↑ 12% from yesterday</p></div></div><div className="mt-6"><ProgressBar value={72} color="bg-[#e7a35c]" /><div className="mt-2 flex justify-between text-[10px] text-[#aaa3ae]"><span>0 min</span><span>60 min</span></div></div></div></div>
+        <FlashcardGenerator />
+        <div className="mt-8 grid gap-8 xl:grid-cols-[1.35fr_1fr]"><section><div className="mb-4 flex items-center justify-between"><div><p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a29caf]">Keep going</p><h2 className="mt-1 text-lg font-semibold tracking-[-0.03em]">Ready for review</h2></div><a href="#" className="text-xs font-semibold text-[#7157d9]">View all <span className="ml-1">→</span></a></div><div className="space-y-3">{reviewItems.map((item) => <div key={item.title} className={`flex items-center gap-4 rounded-2xl ${item.tint} p-4`}><div className={`grid size-10 place-items-center rounded-xl bg-white text-lg ${item.accent}`}>▱</div><div className="min-w-0 flex-1"><h3 className="truncate text-[13px] font-semibold">{item.title}</h3><p className="mt-1 text-[11px] text-[#928b9c]">{item.cards} <span className="mx-1">·</span> <span className={item.accent}>{item.due}</span></p></div><button aria-label={`Review ${item.title}`} className="grid size-8 place-items-center rounded-lg bg-white text-[#7157d9]">→</button></div>)}</div></section><section><div className="mb-4 flex items-center justify-between"><div><p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a29caf]">Your library</p><h2 className="mt-1 text-lg font-semibold tracking-[-0.03em]">Recent documents</h2></div><a href="#" className="text-xs font-semibold text-[#7157d9]">See library <span className="ml-1">→</span></a></div><div className="space-y-2">{documents.map((doc) => <div key={doc.title} className="flex items-center gap-3 rounded-xl border border-[#eeeaf2] bg-white p-3"><div className={`grid size-9 place-items-center rounded-lg text-base ${doc.color}`}>{doc.icon}</div><div className="min-w-0 flex-1"><h3 className="truncate text-[12px] font-semibold">{doc.title}</h3><p className="mt-0.5 text-[10px] text-[#a09aa7]">{doc.type} <span className="mx-1">·</span> {doc.detail}</p></div><span className="text-[#b4aebb]">•••</span></div>)}</div></section></div>
+        <div className="mt-8 grid gap-5 md:grid-cols-2"><section className="rounded-2xl border border-[#ece9f1] bg-white p-5"><div className="flex items-center justify-between"><div><p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a29caf]">Weekly rhythm</p><h2 className="mt-1 text-base font-semibold">Study consistency</h2></div><span className="rounded-md bg-[#e8f8f4] px-2 py-1 text-[10px] font-semibold text-[#258b76]">4 day streak</span></div><div className="mt-5 flex h-[72px] items-end justify-between gap-3">{[42, 68, 52, 82, 62, 92, 35].map((height, index) => <div key={index} className="flex flex-1 flex-col items-center gap-2"><div className={`w-full max-w-[30px] rounded-t-md ${index === 5 ? "bg-[#7157d9]" : "bg-[#e8e2fb]"}`} style={{ height: `${height}%` }} /><span className="text-[9px] text-[#aaa3ae]">{["M", "T", "W", "T", "F", "S", "S"][index]}</span></div>)}</div></section><section className="relative overflow-hidden rounded-2xl bg-[#dff3ee] p-5"><div className="relative z-10 max-w-[240px]"><p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#4d9d8b]">Study smarter</p><h2 className="mt-2 text-base font-semibold leading-5 text-[#254e47]">Ask your study companion anything.</h2><p className="mt-2 text-[11px] leading-4 text-[#5e887f]">Get help understanding your notes when you need it.</p><button className="mt-4 rounded-lg bg-[#286e61] px-3 py-2 text-[11px] font-semibold text-white">Open assistant <span className="ml-2">→</span></button></div><div className="absolute -bottom-10 -right-4 size-32 rounded-full border-[20px] border-[#c6e8df]" /></section></div>
+      </section>
+    </div></main>
   );
 }
