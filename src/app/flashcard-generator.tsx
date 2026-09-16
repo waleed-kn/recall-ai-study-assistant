@@ -13,6 +13,7 @@ export default function FlashcardGenerator() {
     const currentUserId = process.env.NEXT_PUBLIC_CURRENT_USER_ID;
     const currentDocumentId = process.env.NEXT_PUBLIC_CURRENT_DOCUMENT_ID;
     const [notes, setNotes] = useState("");
+    const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
     const [isGenerating, setIsGenerating] = useState(false);
     const [error, setError] = useState("");
@@ -45,6 +46,44 @@ export default function FlashcardGenerator() {
                 requestError instanceof Error
                     ? requestError.message
                     : "Unable to generate flashcards. Please try again.",
+            );
+        } finally {
+            setIsGenerating(false);
+        }
+    }
+
+    async function handlePdfSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setError("");
+        setFlashcards([]);
+
+        if (!pdfFile || !currentUserId) {
+            setError("Choose a PDF and make sure a current user is configured.");
+            return;
+        }
+
+        setIsGenerating(true);
+
+        try {
+            const formData = new FormData();
+            formData.append("file", pdfFile);
+            formData.append("userId", currentUserId);
+            const response = await fetch("/api/documents/upload", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error ?? "Unable to process the PDF.");
+            }
+
+            setFlashcards(data.flashcards);
+        } catch (requestError) {
+            setError(
+                requestError instanceof Error
+                    ? requestError.message
+                    : "Unable to process the PDF. Please try again.",
             );
         } finally {
             setIsGenerating(false);
@@ -94,6 +133,34 @@ export default function FlashcardGenerator() {
                         {isGenerating ? "Generating..." : "Generate flashcards"}
                     </button>
                 </div>
+            </form>
+
+            <div className="my-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#b0a9b7]">
+                <span className="h-px flex-1 bg-[#eeeaf2]" />
+                Or upload a PDF
+                <span className="h-px flex-1 bg-[#eeeaf2]" />
+            </div>
+
+            <form onSubmit={handlePdfSubmit} className="flex flex-wrap items-center gap-3">
+                <label htmlFor="study-pdf" className="min-w-0 flex-1 cursor-pointer rounded-xl border border-dashed border-[#d9d2e3] bg-[#fcfbfd] px-4 py-3 text-xs text-[#756b7f] hover:border-[#7157d9]">
+                    <span className="font-semibold text-[#342b53]">Choose PDF</span>
+                    <span className="ml-2 truncate">{pdfFile?.name ?? "Up to 10 MB"}</span>
+                    <input
+                        id="study-pdf"
+                        type="file"
+                        accept="application/pdf,.pdf"
+                        onChange={(event) => setPdfFile(event.target.files?.[0] ?? null)}
+                        disabled={isGenerating}
+                        className="sr-only"
+                    />
+                </label>
+                <button
+                    type="submit"
+                    disabled={isGenerating || !pdfFile}
+                    className="rounded-lg border border-[#7157d9] px-4 py-2.5 text-xs font-semibold text-[#7157d9] transition hover:bg-[#eeeafd] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                    {isGenerating ? "Processing PDF..." : "Generate from PDF"}
+                </button>
             </form>
 
             {error && (
