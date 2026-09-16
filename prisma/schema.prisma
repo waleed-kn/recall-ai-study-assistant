@@ -118,6 +118,8 @@ model QuizQuestion {
   quizId             String              @db.Uuid
   prompt             String
   explanation        String?
+  topic              String
+  difficulty         FlashcardDifficulty
   position           Int
   quiz               Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
   options            QuizOption[]

@@ -1522,6 +1522,8 @@ export const QuizQuestionScalarFieldEnum = {
   quizId: 'quizId',
   prompt: 'prompt',
   explanation: 'explanation',
+  topic: 'topic',
+  difficulty: 'difficulty',
   position: 'position'
 } as const
 

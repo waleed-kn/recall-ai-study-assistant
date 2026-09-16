@@ -39,6 +39,8 @@ export type QuizQuestionMinAggregateOutputType = {
   quizId: string | null
   prompt: string | null
   explanation: string | null
+  topic: string | null
+  difficulty: $Enums.FlashcardDifficulty | null
   position: number | null
 }
 
@@ -47,6 +49,8 @@ export type QuizQuestionMaxAggregateOutputType = {
   quizId: string | null
   prompt: string | null
   explanation: string | null
+  topic: string | null
+  difficulty: $Enums.FlashcardDifficulty | null
   position: number | null
 }
 
@@ -55,6 +59,8 @@ export type QuizQuestionCountAggregateOutputType = {
   quizId: number
   prompt: number
   explanation: number
+  topic: number
+  difficulty: number
   position: number
   _all: number
 }
@@ -73,6 +79,8 @@ export type QuizQuestionMinAggregateInputType = {
   quizId?: true
   prompt?: true
   explanation?: true
+  topic?: true
+  difficulty?: true
   position?: true
 }
 
@@ -81,6 +89,8 @@ export type QuizQuestionMaxAggregateInputType = {
   quizId?: true
   prompt?: true
   explanation?: true
+  topic?: true
+  difficulty?: true
   position?: true
 }
 
@@ -89,6 +99,8 @@ export type QuizQuestionCountAggregateInputType = {
   quizId?: true
   prompt?: true
   explanation?: true
+  topic?: true
+  difficulty?: true
   position?: true
   _all?: true
 }
@@ -184,6 +196,8 @@ export type QuizQuestionGroupByOutputType = {
   quizId: string
   prompt: string
   explanation: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   _count: QuizQuestionCountAggregateOutputType | null
   _avg: QuizQuestionAvgAggregateOutputType | null
@@ -215,6 +229,8 @@ export type QuizQuestionWhereInput = {
   quizId?: Prisma.UuidFilter<"QuizQuestion"> | string
   prompt?: Prisma.StringFilter<"QuizQuestion"> | string
   explanation?: Prisma.StringNullableFilter<"QuizQuestion"> | string | null
+  topic?: Prisma.StringFilter<"QuizQuestion"> | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFilter<"QuizQuestion"> | $Enums.FlashcardDifficulty
   position?: Prisma.IntFilter<"QuizQuestion"> | number
   quiz?: Prisma.XOR<Prisma.QuizScalarRelationFilter, Prisma.QuizWhereInput>
   options?: Prisma.QuizOptionListRelationFilter
@@ -226,6 +242,8 @@ export type QuizQuestionOrderByWithRelationInput = {
   quizId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
   explanation?: Prisma.SortOrderInput | Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
   position?: Prisma.SortOrder
   quiz?: Prisma.QuizOrderByWithRelationInput
   options?: Prisma.QuizOptionOrderByRelationAggregateInput
@@ -241,6 +259,8 @@ export type QuizQuestionWhereUniqueInput = Prisma.AtLeast<{
   quizId?: Prisma.UuidFilter<"QuizQuestion"> | string
   prompt?: Prisma.StringFilter<"QuizQuestion"> | string
   explanation?: Prisma.StringNullableFilter<"QuizQuestion"> | string | null
+  topic?: Prisma.StringFilter<"QuizQuestion"> | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFilter<"QuizQuestion"> | $Enums.FlashcardDifficulty
   position?: Prisma.IntFilter<"QuizQuestion"> | number
   quiz?: Prisma.XOR<Prisma.QuizScalarRelationFilter, Prisma.QuizWhereInput>
   options?: Prisma.QuizOptionListRelationFilter
@@ -252,6 +272,8 @@ export type QuizQuestionOrderByWithAggregationInput = {
   quizId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
   explanation?: Prisma.SortOrderInput | Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
   position?: Prisma.SortOrder
   _count?: Prisma.QuizQuestionCountOrderByAggregateInput
   _avg?: Prisma.QuizQuestionAvgOrderByAggregateInput
@@ -268,6 +290,8 @@ export type QuizQuestionScalarWhereWithAggregatesInput = {
   quizId?: Prisma.UuidWithAggregatesFilter<"QuizQuestion"> | string
   prompt?: Prisma.StringWithAggregatesFilter<"QuizQuestion"> | string
   explanation?: Prisma.StringNullableWithAggregatesFilter<"QuizQuestion"> | string | null
+  topic?: Prisma.StringWithAggregatesFilter<"QuizQuestion"> | string
+  difficulty?: Prisma.EnumFlashcardDifficultyWithAggregatesFilter<"QuizQuestion"> | $Enums.FlashcardDifficulty
   position?: Prisma.IntWithAggregatesFilter<"QuizQuestion"> | number
 }
 
@@ -275,6 +299,8 @@ export type QuizQuestionCreateInput = {
   id?: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   quiz: Prisma.QuizCreateNestedOneWithoutQuestionsInput
   options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
@@ -286,6 +312,8 @@ export type QuizQuestionUncheckedCreateInput = {
   quizId: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   options?: Prisma.QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
   answers?: Prisma.QuizAnswerUncheckedCreateNestedManyWithoutQuestionInput
@@ -295,6 +323,8 @@ export type QuizQuestionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   quiz?: Prisma.QuizUpdateOneRequiredWithoutQuestionsNestedInput
   options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
@@ -306,6 +336,8 @@ export type QuizQuestionUncheckedUpdateInput = {
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   options?: Prisma.QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
   answers?: Prisma.QuizAnswerUncheckedUpdateManyWithoutQuestionNestedInput
@@ -316,6 +348,8 @@ export type QuizQuestionCreateManyInput = {
   quizId: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
 }
 
@@ -323,6 +357,8 @@ export type QuizQuestionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -331,6 +367,8 @@ export type QuizQuestionUncheckedUpdateManyInput = {
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -354,6 +392,8 @@ export type QuizQuestionCountOrderByAggregateInput = {
   quizId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
   explanation?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
   position?: Prisma.SortOrder
 }
 
@@ -366,6 +406,8 @@ export type QuizQuestionMaxOrderByAggregateInput = {
   quizId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
   explanation?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
   position?: Prisma.SortOrder
 }
 
@@ -374,6 +416,8 @@ export type QuizQuestionMinOrderByAggregateInput = {
   quizId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
   explanation?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
   position?: Prisma.SortOrder
 }
 
@@ -460,6 +504,8 @@ export type QuizQuestionCreateWithoutQuizInput = {
   id?: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
   answers?: Prisma.QuizAnswerCreateNestedManyWithoutQuestionInput
@@ -469,6 +515,8 @@ export type QuizQuestionUncheckedCreateWithoutQuizInput = {
   id?: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   options?: Prisma.QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
   answers?: Prisma.QuizAnswerUncheckedCreateNestedManyWithoutQuestionInput
@@ -508,6 +556,8 @@ export type QuizQuestionScalarWhereInput = {
   quizId?: Prisma.UuidFilter<"QuizQuestion"> | string
   prompt?: Prisma.StringFilter<"QuizQuestion"> | string
   explanation?: Prisma.StringNullableFilter<"QuizQuestion"> | string | null
+  topic?: Prisma.StringFilter<"QuizQuestion"> | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFilter<"QuizQuestion"> | $Enums.FlashcardDifficulty
   position?: Prisma.IntFilter<"QuizQuestion"> | number
 }
 
@@ -515,6 +565,8 @@ export type QuizQuestionCreateWithoutOptionsInput = {
   id?: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   quiz: Prisma.QuizCreateNestedOneWithoutQuestionsInput
   answers?: Prisma.QuizAnswerCreateNestedManyWithoutQuestionInput
@@ -525,6 +577,8 @@ export type QuizQuestionUncheckedCreateWithoutOptionsInput = {
   quizId: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   answers?: Prisma.QuizAnswerUncheckedCreateNestedManyWithoutQuestionInput
 }
@@ -549,6 +603,8 @@ export type QuizQuestionUpdateWithoutOptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   quiz?: Prisma.QuizUpdateOneRequiredWithoutQuestionsNestedInput
   answers?: Prisma.QuizAnswerUpdateManyWithoutQuestionNestedInput
@@ -559,6 +615,8 @@ export type QuizQuestionUncheckedUpdateWithoutOptionsInput = {
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   answers?: Prisma.QuizAnswerUncheckedUpdateManyWithoutQuestionNestedInput
 }
@@ -567,6 +625,8 @@ export type QuizQuestionCreateWithoutAnswersInput = {
   id?: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   quiz: Prisma.QuizCreateNestedOneWithoutQuestionsInput
   options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
@@ -577,6 +637,8 @@ export type QuizQuestionUncheckedCreateWithoutAnswersInput = {
   quizId: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
   options?: Prisma.QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
 }
@@ -601,6 +663,8 @@ export type QuizQuestionUpdateWithoutAnswersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   quiz?: Prisma.QuizUpdateOneRequiredWithoutQuestionsNestedInput
   options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
@@ -611,6 +675,8 @@ export type QuizQuestionUncheckedUpdateWithoutAnswersInput = {
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   options?: Prisma.QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
 }
@@ -619,6 +685,8 @@ export type QuizQuestionCreateManyQuizInput = {
   id?: string
   prompt: string
   explanation?: string | null
+  topic: string
+  difficulty: $Enums.FlashcardDifficulty
   position: number
 }
 
@@ -626,6 +694,8 @@ export type QuizQuestionUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
   answers?: Prisma.QuizAnswerUpdateManyWithoutQuestionNestedInput
@@ -635,6 +705,8 @@ export type QuizQuestionUncheckedUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
   options?: Prisma.QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
   answers?: Prisma.QuizAnswerUncheckedUpdateManyWithoutQuestionNestedInput
@@ -644,6 +716,8 @@ export type QuizQuestionUncheckedUpdateManyWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumFlashcardDifficultyFieldUpdateOperationsInput | $Enums.FlashcardDifficulty
   position?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -692,6 +766,8 @@ export type QuizQuestionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   quizId?: boolean
   prompt?: boolean
   explanation?: boolean
+  topic?: boolean
+  difficulty?: boolean
   position?: boolean
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
   options?: boolean | Prisma.QuizQuestion$optionsArgs<ExtArgs>
@@ -704,6 +780,8 @@ export type QuizQuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   quizId?: boolean
   prompt?: boolean
   explanation?: boolean
+  topic?: boolean
+  difficulty?: boolean
   position?: boolean
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quizQuestion"]>
@@ -713,6 +791,8 @@ export type QuizQuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   quizId?: boolean
   prompt?: boolean
   explanation?: boolean
+  topic?: boolean
+  difficulty?: boolean
   position?: boolean
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quizQuestion"]>
@@ -722,10 +802,12 @@ export type QuizQuestionSelectScalar = {
   quizId?: boolean
   prompt?: boolean
   explanation?: boolean
+  topic?: boolean
+  difficulty?: boolean
   position?: boolean
 }
 
-export type QuizQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quizId" | "prompt" | "explanation" | "position", ExtArgs["result"]["quizQuestion"]>
+export type QuizQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quizId" | "prompt" | "explanation" | "topic" | "difficulty" | "position", ExtArgs["result"]["quizQuestion"]>
 export type QuizQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
   options?: boolean | Prisma.QuizQuestion$optionsArgs<ExtArgs>
@@ -751,6 +833,8 @@ export type $QuizQuestionPayload<ExtArgs extends runtime.Types.Extensions.Intern
     quizId: string
     prompt: string
     explanation: string | null
+    topic: string
+    difficulty: $Enums.FlashcardDifficulty
     position: number
   }, ExtArgs["result"]["quizQuestion"]>
   composites: {}
@@ -1182,6 +1266,8 @@ export interface QuizQuestionFieldRefs {
   readonly quizId: Prisma.FieldRef<"QuizQuestion", 'String'>
   readonly prompt: Prisma.FieldRef<"QuizQuestion", 'String'>
   readonly explanation: Prisma.FieldRef<"QuizQuestion", 'String'>
+  readonly topic: Prisma.FieldRef<"QuizQuestion", 'String'>
+  readonly difficulty: Prisma.FieldRef<"QuizQuestion", 'FlashcardDifficulty'>
   readonly position: Prisma.FieldRef<"QuizQuestion", 'Int'>
 }
     
