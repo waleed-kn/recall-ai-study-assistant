@@ -29,6 +29,9 @@ export type QuizAnswerMinAggregateOutputType = {
   attemptId: string | null
   questionId: string | null
   selectedOptionId: string | null
+  selectedAnswer: string | null
+  correctAnswer: string | null
+  topic: string | null
   answerText: string | null
   isCorrect: boolean | null
   answeredAt: Date | null
@@ -39,6 +42,9 @@ export type QuizAnswerMaxAggregateOutputType = {
   attemptId: string | null
   questionId: string | null
   selectedOptionId: string | null
+  selectedAnswer: string | null
+  correctAnswer: string | null
+  topic: string | null
   answerText: string | null
   isCorrect: boolean | null
   answeredAt: Date | null
@@ -49,6 +55,9 @@ export type QuizAnswerCountAggregateOutputType = {
   attemptId: number
   questionId: number
   selectedOptionId: number
+  selectedAnswer: number
+  correctAnswer: number
+  topic: number
   answerText: number
   isCorrect: number
   answeredAt: number
@@ -61,6 +70,9 @@ export type QuizAnswerMinAggregateInputType = {
   attemptId?: true
   questionId?: true
   selectedOptionId?: true
+  selectedAnswer?: true
+  correctAnswer?: true
+  topic?: true
   answerText?: true
   isCorrect?: true
   answeredAt?: true
@@ -71,6 +83,9 @@ export type QuizAnswerMaxAggregateInputType = {
   attemptId?: true
   questionId?: true
   selectedOptionId?: true
+  selectedAnswer?: true
+  correctAnswer?: true
+  topic?: true
   answerText?: true
   isCorrect?: true
   answeredAt?: true
@@ -81,6 +96,9 @@ export type QuizAnswerCountAggregateInputType = {
   attemptId?: true
   questionId?: true
   selectedOptionId?: true
+  selectedAnswer?: true
+  correctAnswer?: true
+  topic?: true
   answerText?: true
   isCorrect?: true
   answeredAt?: true
@@ -164,6 +182,9 @@ export type QuizAnswerGroupByOutputType = {
   attemptId: string
   questionId: string
   selectedOptionId: string | null
+  selectedAnswer: string | null
+  correctAnswer: string
+  topic: string
   answerText: string | null
   isCorrect: boolean | null
   answeredAt: Date
@@ -195,6 +216,9 @@ export type QuizAnswerWhereInput = {
   attemptId?: Prisma.UuidFilter<"QuizAnswer"> | string
   questionId?: Prisma.UuidFilter<"QuizAnswer"> | string
   selectedOptionId?: Prisma.UuidNullableFilter<"QuizAnswer"> | string | null
+  selectedAnswer?: Prisma.StringNullableFilter<"QuizAnswer"> | string | null
+  correctAnswer?: Prisma.StringFilter<"QuizAnswer"> | string
+  topic?: Prisma.StringFilter<"QuizAnswer"> | string
   answerText?: Prisma.StringNullableFilter<"QuizAnswer"> | string | null
   isCorrect?: Prisma.BoolNullableFilter<"QuizAnswer"> | boolean | null
   answeredAt?: Prisma.DateTimeFilter<"QuizAnswer"> | Date | string
@@ -208,6 +232,9 @@ export type QuizAnswerOrderByWithRelationInput = {
   attemptId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   selectedOptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  selectedAnswer?: Prisma.SortOrderInput | Prisma.SortOrder
+  correctAnswer?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
   answerText?: Prisma.SortOrderInput | Prisma.SortOrder
   isCorrect?: Prisma.SortOrderInput | Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
@@ -225,6 +252,9 @@ export type QuizAnswerWhereUniqueInput = Prisma.AtLeast<{
   attemptId?: Prisma.UuidFilter<"QuizAnswer"> | string
   questionId?: Prisma.UuidFilter<"QuizAnswer"> | string
   selectedOptionId?: Prisma.UuidNullableFilter<"QuizAnswer"> | string | null
+  selectedAnswer?: Prisma.StringNullableFilter<"QuizAnswer"> | string | null
+  correctAnswer?: Prisma.StringFilter<"QuizAnswer"> | string
+  topic?: Prisma.StringFilter<"QuizAnswer"> | string
   answerText?: Prisma.StringNullableFilter<"QuizAnswer"> | string | null
   isCorrect?: Prisma.BoolNullableFilter<"QuizAnswer"> | boolean | null
   answeredAt?: Prisma.DateTimeFilter<"QuizAnswer"> | Date | string
@@ -238,6 +268,9 @@ export type QuizAnswerOrderByWithAggregationInput = {
   attemptId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   selectedOptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  selectedAnswer?: Prisma.SortOrderInput | Prisma.SortOrder
+  correctAnswer?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
   answerText?: Prisma.SortOrderInput | Prisma.SortOrder
   isCorrect?: Prisma.SortOrderInput | Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
@@ -254,6 +287,9 @@ export type QuizAnswerScalarWhereWithAggregatesInput = {
   attemptId?: Prisma.UuidWithAggregatesFilter<"QuizAnswer"> | string
   questionId?: Prisma.UuidWithAggregatesFilter<"QuizAnswer"> | string
   selectedOptionId?: Prisma.UuidNullableWithAggregatesFilter<"QuizAnswer"> | string | null
+  selectedAnswer?: Prisma.StringNullableWithAggregatesFilter<"QuizAnswer"> | string | null
+  correctAnswer?: Prisma.StringWithAggregatesFilter<"QuizAnswer"> | string
+  topic?: Prisma.StringWithAggregatesFilter<"QuizAnswer"> | string
   answerText?: Prisma.StringNullableWithAggregatesFilter<"QuizAnswer"> | string | null
   isCorrect?: Prisma.BoolNullableWithAggregatesFilter<"QuizAnswer"> | boolean | null
   answeredAt?: Prisma.DateTimeWithAggregatesFilter<"QuizAnswer"> | Date | string
@@ -261,6 +297,9 @@ export type QuizAnswerScalarWhereWithAggregatesInput = {
 
 export type QuizAnswerCreateInput = {
   id?: string
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -274,6 +313,9 @@ export type QuizAnswerUncheckedCreateInput = {
   attemptId: string
   questionId: string
   selectedOptionId?: string | null
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -281,6 +323,9 @@ export type QuizAnswerUncheckedCreateInput = {
 
 export type QuizAnswerUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -294,6 +339,9 @@ export type QuizAnswerUncheckedUpdateInput = {
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   selectedOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -304,6 +352,9 @@ export type QuizAnswerCreateManyInput = {
   attemptId: string
   questionId: string
   selectedOptionId?: string | null
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -311,6 +362,9 @@ export type QuizAnswerCreateManyInput = {
 
 export type QuizAnswerUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -321,6 +375,9 @@ export type QuizAnswerUncheckedUpdateManyInput = {
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   selectedOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -346,6 +403,9 @@ export type QuizAnswerCountOrderByAggregateInput = {
   attemptId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   selectedOptionId?: Prisma.SortOrder
+  selectedAnswer?: Prisma.SortOrder
+  correctAnswer?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
   answerText?: Prisma.SortOrder
   isCorrect?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
@@ -356,6 +416,9 @@ export type QuizAnswerMaxOrderByAggregateInput = {
   attemptId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   selectedOptionId?: Prisma.SortOrder
+  selectedAnswer?: Prisma.SortOrder
+  correctAnswer?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
   answerText?: Prisma.SortOrder
   isCorrect?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
@@ -366,6 +429,9 @@ export type QuizAnswerMinOrderByAggregateInput = {
   attemptId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   selectedOptionId?: Prisma.SortOrder
+  selectedAnswer?: Prisma.SortOrder
+  correctAnswer?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
   answerText?: Prisma.SortOrder
   isCorrect?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
@@ -503,6 +569,9 @@ export type NullableBoolFieldUpdateOperationsInput = {
 
 export type QuizAnswerCreateWithoutQuestionInput = {
   id?: string
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -514,6 +583,9 @@ export type QuizAnswerUncheckedCreateWithoutQuestionInput = {
   id?: string
   attemptId: string
   selectedOptionId?: string | null
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -553,6 +625,9 @@ export type QuizAnswerScalarWhereInput = {
   attemptId?: Prisma.UuidFilter<"QuizAnswer"> | string
   questionId?: Prisma.UuidFilter<"QuizAnswer"> | string
   selectedOptionId?: Prisma.UuidNullableFilter<"QuizAnswer"> | string | null
+  selectedAnswer?: Prisma.StringNullableFilter<"QuizAnswer"> | string | null
+  correctAnswer?: Prisma.StringFilter<"QuizAnswer"> | string
+  topic?: Prisma.StringFilter<"QuizAnswer"> | string
   answerText?: Prisma.StringNullableFilter<"QuizAnswer"> | string | null
   isCorrect?: Prisma.BoolNullableFilter<"QuizAnswer"> | boolean | null
   answeredAt?: Prisma.DateTimeFilter<"QuizAnswer"> | Date | string
@@ -560,6 +635,9 @@ export type QuizAnswerScalarWhereInput = {
 
 export type QuizAnswerCreateWithoutSelectedOptionInput = {
   id?: string
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -571,6 +649,9 @@ export type QuizAnswerUncheckedCreateWithoutSelectedOptionInput = {
   id?: string
   attemptId: string
   questionId: string
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -604,6 +685,9 @@ export type QuizAnswerUpdateManyWithWhereWithoutSelectedOptionInput = {
 
 export type QuizAnswerCreateWithoutAttemptInput = {
   id?: string
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -615,6 +699,9 @@ export type QuizAnswerUncheckedCreateWithoutAttemptInput = {
   id?: string
   questionId: string
   selectedOptionId?: string | null
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -650,6 +737,9 @@ export type QuizAnswerCreateManyQuestionInput = {
   id?: string
   attemptId: string
   selectedOptionId?: string | null
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -657,6 +747,9 @@ export type QuizAnswerCreateManyQuestionInput = {
 
 export type QuizAnswerUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -668,6 +761,9 @@ export type QuizAnswerUncheckedUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
   selectedOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -677,6 +773,9 @@ export type QuizAnswerUncheckedUpdateManyWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
   selectedOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -686,6 +785,9 @@ export type QuizAnswerCreateManySelectedOptionInput = {
   id?: string
   attemptId: string
   questionId: string
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -693,6 +795,9 @@ export type QuizAnswerCreateManySelectedOptionInput = {
 
 export type QuizAnswerUpdateWithoutSelectedOptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -704,6 +809,9 @@ export type QuizAnswerUncheckedUpdateWithoutSelectedOptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -713,6 +821,9 @@ export type QuizAnswerUncheckedUpdateManyWithoutSelectedOptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -722,6 +833,9 @@ export type QuizAnswerCreateManyAttemptInput = {
   id?: string
   questionId: string
   selectedOptionId?: string | null
+  selectedAnswer?: string | null
+  correctAnswer: string
+  topic: string
   answerText?: string | null
   isCorrect?: boolean | null
   answeredAt?: Date | string
@@ -729,6 +843,9 @@ export type QuizAnswerCreateManyAttemptInput = {
 
 export type QuizAnswerUpdateWithoutAttemptInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,6 +857,9 @@ export type QuizAnswerUncheckedUpdateWithoutAttemptInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   selectedOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -749,6 +869,9 @@ export type QuizAnswerUncheckedUpdateManyWithoutAttemptInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
   selectedOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  selectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correctAnswer?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isCorrect?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -761,6 +884,9 @@ export type QuizAnswerSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   attemptId?: boolean
   questionId?: boolean
   selectedOptionId?: boolean
+  selectedAnswer?: boolean
+  correctAnswer?: boolean
+  topic?: boolean
   answerText?: boolean
   isCorrect?: boolean
   answeredAt?: boolean
@@ -774,6 +900,9 @@ export type QuizAnswerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   attemptId?: boolean
   questionId?: boolean
   selectedOptionId?: boolean
+  selectedAnswer?: boolean
+  correctAnswer?: boolean
+  topic?: boolean
   answerText?: boolean
   isCorrect?: boolean
   answeredAt?: boolean
@@ -787,6 +916,9 @@ export type QuizAnswerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   attemptId?: boolean
   questionId?: boolean
   selectedOptionId?: boolean
+  selectedAnswer?: boolean
+  correctAnswer?: boolean
+  topic?: boolean
   answerText?: boolean
   isCorrect?: boolean
   answeredAt?: boolean
@@ -800,12 +932,15 @@ export type QuizAnswerSelectScalar = {
   attemptId?: boolean
   questionId?: boolean
   selectedOptionId?: boolean
+  selectedAnswer?: boolean
+  correctAnswer?: boolean
+  topic?: boolean
   answerText?: boolean
   isCorrect?: boolean
   answeredAt?: boolean
 }
 
-export type QuizAnswerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "selectedOptionId" | "answerText" | "isCorrect" | "answeredAt", ExtArgs["result"]["quizAnswer"]>
+export type QuizAnswerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "selectedOptionId" | "selectedAnswer" | "correctAnswer" | "topic" | "answerText" | "isCorrect" | "answeredAt", ExtArgs["result"]["quizAnswer"]>
 export type QuizAnswerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
   question?: boolean | Prisma.QuizQuestionDefaultArgs<ExtArgs>
@@ -834,6 +969,9 @@ export type $QuizAnswerPayload<ExtArgs extends runtime.Types.Extensions.Internal
     attemptId: string
     questionId: string
     selectedOptionId: string | null
+    selectedAnswer: string | null
+    correctAnswer: string
+    topic: string
     answerText: string | null
     isCorrect: boolean | null
     answeredAt: Date
@@ -1267,6 +1405,9 @@ export interface QuizAnswerFieldRefs {
   readonly attemptId: Prisma.FieldRef<"QuizAnswer", 'String'>
   readonly questionId: Prisma.FieldRef<"QuizAnswer", 'String'>
   readonly selectedOptionId: Prisma.FieldRef<"QuizAnswer", 'String'>
+  readonly selectedAnswer: Prisma.FieldRef<"QuizAnswer", 'String'>
+  readonly correctAnswer: Prisma.FieldRef<"QuizAnswer", 'String'>
+  readonly topic: Prisma.FieldRef<"QuizAnswer", 'String'>
   readonly answerText: Prisma.FieldRef<"QuizAnswer", 'String'>
   readonly isCorrect: Prisma.FieldRef<"QuizAnswer", 'Boolean'>
   readonly answeredAt: Prisma.FieldRef<"QuizAnswer", 'DateTime'>

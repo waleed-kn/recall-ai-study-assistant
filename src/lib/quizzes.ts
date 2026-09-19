@@ -19,8 +19,10 @@ export const quizResponseSchema = z.object({
 
 export const generateQuizRequestSchema = z.object({
     userId: z.uuid(),
-    documentId: z.uuid(),
+    documentId: z.uuid().optional(),
     topic: z.string().trim().max(120).optional(),
+}).refine((input) => input.documentId || input.topic, {
+    message: "Choose a document or enter a topic.",
 });
 
 export const submitQuizRequestSchema = z.object({

@@ -19,6 +19,11 @@ type QuizResult = {
     isCorrect: boolean;
     explanation: string | null;
 };
+type TopicProgress = {
+    topic: string;
+    accuracy: number;
+    strength: "Weak" | "Medium" | "Strong";
+};
 
 const difficultyStyles = {
     easy: "bg-[#e8f8f4] text-[#258b76]",
@@ -29,12 +34,14 @@ const difficultyStyles = {
 export default function QuizGenerator() {
     const currentUserId = process.env.NEXT_PUBLIC_CURRENT_USER_ID;
     const defaultDocumentId = process.env.NEXT_PUBLIC_CURRENT_DOCUMENT_ID ?? "";
+    const [sourceType, setSourceType] = useState<"document" | "topic">(defaultDocumentId ? "document" : "topic");
     const [documentId, setDocumentId] = useState(defaultDocumentId);
     const [topic, setTopic] = useState("");
     const [quiz, setQuiz] = useState<Quiz | null>(null);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [results, setResults] = useState<QuizResult[] | null>(null);
     const [score, setScore] = useState<number | null>(null);
+    const [topicProgress, setTopicProgress] = useState<TopicProgress[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -44,9 +51,10 @@ export default function QuizGenerator() {
         setQuiz(null);
         setResults(null);
         setScore(null);
+        setTopicProgress([]);
 
-        if (!currentUserId || !documentId) {
-            setError("Configure a current user and document before generating a quiz.");
+        if (!currentUserId || (sourceType === "document" && !documentId) || (sourceType === "topic" && !topic.trim())) {
+            setError("Configure a current user and choose a document or topic before generating a quiz.");
             return;
         }
 
@@ -55,7 +63,11 @@ export default function QuizGenerator() {
             const response = await fetch("/api/quizzes/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId: currentUserId, documentId, topic: topic || undefined }),
+                body: JSON.stringify({
+                    userId: currentUserId,
+                    documentId: sourceType === "document" ? documentId : undefined,
+                    topic: sourceType === "topic" ? topic : undefined,
+                }),
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.error ?? "Unable to generate a quiz.");
@@ -91,6 +103,7 @@ export default function QuizGenerator() {
             if (!response.ok) throw new Error(data.error ?? "Unable to submit the quiz.");
             setResults(data.results);
             setScore(data.score);
+            setTopicProgress(data.topicProgress ?? []);
         } catch (requestError) {
             setError(requestError instanceof Error ? requestError.message : "Unable to submit the quiz.");
         } finally {
@@ -104,18 +117,29 @@ export default function QuizGenerator() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a29caf]">AI quiz lab</p>
                 <h2 className="mt-1 text-lg font-semibold tracking-[-0.03em]">Test your understanding</h2>
                 <p className="mt-1 text-[12px] text-[#938c9c]">Generate a multiple-choice quiz from a saved study document.</p>
+                <p className="mt-1 text-[12px] text-[#938c9c]">Generate a multiple-choice quiz from a saved document or topic.</p>
             </div>
 
             {!quiz && (
-                <form onSubmit={generateQuiz} className="mt-5 grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+                <form onSubmit={generateQuiz} className="mt-5 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-end">
                     <label className="text-xs font-semibold text-[#5d5665]">
-                        Document ID
-                        <input value={documentId} onChange={(event) => setDocumentId(event.target.value)} placeholder="Document UUID" className="mt-2 w-full rounded-lg border border-[#e8e4ed] bg-[#fcfbfd] px-3 py-2.5 text-xs font-normal outline-none focus:border-[#7157d9]" />
+                        Source
+                        <select value={sourceType} onChange={(event) => setSourceType(event.target.value as "document" | "topic")} className="mt-2 w-full rounded-lg border border-[#e8e4ed] bg-[#fcfbfd] px-3 py-2.5 text-xs font-normal outline-none focus:border-[#7157d9]">
+                            <option value="document">Document</option>
+                            <option value="topic">Topic</option>
+                        </select>
                     </label>
-                    <label className="text-xs font-semibold text-[#5d5665]">
-                        Topic (optional)
-                        <input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="e.g. neural networks" className="mt-2 w-full rounded-lg border border-[#e8e4ed] bg-[#fcfbfd] px-3 py-2.5 text-xs font-normal outline-none focus:border-[#7157d9]" />
-                    </label>
+                    {sourceType === "document" ? (
+                        <label className="text-xs font-semibold text-[#5d5665]">
+                            Document ID
+                            <input value={documentId} onChange={(event) => setDocumentId(event.target.value)} placeholder="Document UUID" className="mt-2 w-full rounded-lg border border-[#e8e4ed] bg-[#fcfbfd] px-3 py-2.5 text-xs font-normal outline-none focus:border-[#7157d9]" />
+                        </label>
+                    ) : (
+                        <label className="text-xs font-semibold text-[#5d5665]">
+                            Topic
+                            <input value={topic} onChange={(event) => setTopic(event.target.value)} placeholder="e.g. neural networks" className="mt-2 w-full rounded-lg border border-[#e8e4ed] bg-[#fcfbfd] px-3 py-2.5 text-xs font-normal outline-none focus:border-[#7157d9]" />
+                        </label>
+                    )}
                     <button type="submit" disabled={isLoading} className="rounded-lg bg-[#286e61] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#1f5e52] disabled:cursor-wait disabled:opacity-50">
                         {isLoading ? "Generating..." : "Generate quiz"}
                     </button>
@@ -152,7 +176,29 @@ export default function QuizGenerator() {
                             );
                         })}
                     </div>
-                    {results === null ? <button type="submit" disabled={isLoading} className="mt-5 rounded-lg bg-[#286e61] px-4 py-2.5 text-xs font-semibold text-white disabled:cursor-wait disabled:opacity-50">{isLoading ? "Submitting..." : "Submit quiz"}</button> : <button type="button" onClick={() => { setQuiz(null); setResults(null); setScore(null); }} className="mt-5 rounded-lg border border-[#286e61] px-4 py-2.5 text-xs font-semibold text-[#286e61]">Generate another quiz</button>}
+                    {results === null ? <button type="submit" disabled={isLoading} className="mt-5 rounded-lg bg-[#286e61] px-4 py-2.5 text-xs font-semibold text-white disabled:cursor-wait disabled:opacity-50">{isLoading ? "Submitting..." : "Submit quiz"}</button> : <button type="button" onClick={() => { setQuiz(null); setResults(null); setScore(null); setTopicProgress([]); }} className="mt-5 rounded-lg border border-[#286e61] px-4 py-2.5 text-xs font-semibold text-[#286e61]">Generate another quiz</button>}
+                    {topicProgress.length > 0 && (
+                        <section className="mt-6 border-t border-[#eeeaf2] pt-5">
+                            <div className="flex items-center justify-between gap-3">
+                                <div>
+                                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a29caf]">Learning analytics</p>
+                                    <h4 className="mt-1 text-sm font-semibold">Topic strength</h4>
+                                </div>
+                                <span className="text-[11px] text-[#938c9c]">Based on all submitted answers</span>
+                            </div>
+                            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                                {topicProgress.map((progress) => (
+                                    <div key={progress.topic} className="rounded-lg border border-[#eeeaf2] bg-white px-3 py-2.5">
+                                        <div className="flex items-center justify-between gap-2">
+                                            <span className="truncate text-xs font-semibold text-[#342b53]">{progress.topic}</span>
+                                            <span className={`rounded-md px-2 py-1 text-[10px] font-semibold ${progress.strength === "Strong" ? "bg-[#e8f8f4] text-[#258b76]" : progress.strength === "Weak" ? "bg-[#fce9ed] text-[#b85268]" : "bg-[#fff3df] text-[#ad712f]"}`}>{progress.strength}</span>
+                                        </div>
+                                        <p className="mt-2 text-[11px] text-[#938c9c]">{Math.round(progress.accuracy)}% accuracy</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
                 </form>
             )}
 

@@ -160,6 +160,9 @@ model QuizAnswer {
   attemptId          String              @db.Uuid
   questionId         String              @db.Uuid
   selectedOptionId   String?             @db.Uuid
+  selectedAnswer     String?
+  correctAnswer      String
+  topic              String
   answerText         String?
   isCorrect          Boolean?
   answeredAt         DateTime            @default(now())

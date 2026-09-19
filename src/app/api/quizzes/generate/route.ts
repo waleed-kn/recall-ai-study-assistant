@@ -22,18 +22,33 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "The OpenAI API key is not configured." }, { status: 500 });
         }
 
-        const document = await getPrisma().studyDocument.findFirst({
-            where: { id: input.data.documentId, userId: input.data.userId },
-            select: { id: true, title: true, contentText: true },
-        });
+        const documents = input.data.documentId
+            ? await getPrisma().studyDocument.findMany({
+                where: { id: input.data.documentId, userId: input.data.userId },
+                select: { id: true, title: true, contentText: true },
+            })
+            : await getPrisma().studyDocument.findMany({
+                where: {
+                    userId: input.data.userId,
+                    topics: { some: { topic: { name: input.data.topic } } },
+                },
+                select: { id: true, title: true, contentText: true },
+                orderBy: { updatedAt: "desc" },
+                take: 10,
+            });
 
-        if (!document) {
-            return NextResponse.json({ error: "The selected document was not found." }, { status: 404 });
+        if (documents.length === 0) {
+            return NextResponse.json({ error: "No matching study material was found." }, { status: 404 });
         }
 
-        if (!document.contentText || document.contentText.trim().length < 20) {
+        const sourceText = documents
+            .map((document) => document.contentText?.trim())
+            .filter((content): content is string => Boolean(content))
+            .join("\n\n");
+
+        if (sourceText.length < 20) {
             return NextResponse.json(
-                { error: "The selected document does not contain enough study text." },
+                { error: "The selected study material does not contain enough study text." },
                 { status: 422 },
             );
         }
@@ -49,7 +64,7 @@ export async function POST(request: Request) {
                     role: "system",
                     content: `Create a multiple-choice quiz from the study material. ${topicInstruction} Generate 5 to 10 questions. Every question must have exactly four distinct options and one correct answer represented by its zero-based option index. Use easy, medium, or hard difficulty.`,
                 },
-                { role: "user", content: document.contentText.slice(0, 50000) },
+                { role: "user", content: sourceText.slice(0, 50000) },
             ],
             text: { format: zodTextFormat(quizResponseSchema, "quiz") },
         });
@@ -62,8 +77,8 @@ export async function POST(request: Request) {
         const quiz = await getPrisma().quiz.create({
             data: {
                 userId: input.data.userId,
-                documentId: document.id,
-                title: input.data.topic ? `${input.data.topic} quiz` : `${document.title} quiz`,
+                documentId: input.data.documentId ? documents[0].id : null,
+                title: input.data.topic ? `${input.data.topic} quiz` : `${documents[0].title} quiz`,
                 questions: {
                     create: parsed.data.questions.map((question, position) => ({
                         prompt: question.question,

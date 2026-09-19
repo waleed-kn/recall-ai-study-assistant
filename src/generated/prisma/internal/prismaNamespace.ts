@@ -1557,6 +1557,9 @@ export const QuizAnswerScalarFieldEnum = {
   attemptId: 'attemptId',
   questionId: 'questionId',
   selectedOptionId: 'selectedOptionId',
+  selectedAnswer: 'selectedAnswer',
+  correctAnswer: 'correctAnswer',
+  topic: 'topic',
   answerText: 'answerText',
   isCorrect: 'isCorrect',
   answeredAt: 'answeredAt'
